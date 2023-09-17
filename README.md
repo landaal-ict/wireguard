@@ -50,4 +50,6 @@ Create new Pull Request on GitHub
 
 The orginal project is from [angristan](https://github.com/angristan/wireguard-install)
 I make a copy to add opensuse support.  
-my pr stays open for months so i begin my own repo.
+my pr stays open for months.  
+I upload my own version and start my own project.  
+Feel free to contributing!  
