@@ -36,6 +36,7 @@ It will install WireGuard (kernel module and tools) on the server, configure it,
 Run the script again to add or remove clients!
 
 ## Contributing
+
 ```
 Fork the repository
 Create your feature branch (git checkout -b my-new-feature)
@@ -48,4 +49,5 @@ Create new Pull Request on GitHub
 ## Credits
 
 The orginal project is from [angristan](https://github.com/angristan/wireguard-install)
-I make a copy to add opensuse support my pr stays open for months so i begin my own repo.
+I make a copy to add opensuse support.  
+my pr stays open for months so i begin my own repo.
