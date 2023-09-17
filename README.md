@@ -36,7 +36,14 @@ It will install WireGuard (kernel module and tools) on the server, configure it,
 Run the script again to add or remove clients!
 
 ## Contributing
-
+```
+Fork the repository
+Create your feature branch (git checkout -b my-new-feature)
+Add the files ( git add .)
+Commit your changes (git commit -a -m 'Add some feature')
+Push to the branch (git push origin my-new-feature)
+Create new Pull Request on GitHub
+```
 
 ## Credits
 
