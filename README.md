@@ -40,10 +40,10 @@ Run the script again to add or remove clients!
 
 Fork the repository with a date on it, this is the test branch.  
 Make your changes and add.  
-Add the files ( git add .)
-Commit your changes (git commit -m 'Add some feature')
-Push to the branch (git push)
-Create new Pull Request on GitHub
+Add the files ( git add .)  
+Commit your changes (git commit -m 'Add some feature')  
+Push to the branch (git push)  
+Create new Pull Request on GitHub  
 
 
 ## Credits
