@@ -37,7 +37,6 @@ Run the script again to add or remove clients!
 
 ## Contributing
 
-```
 Fork the repository with a date on it, this is the test branch.
 ![img/branch.png]
 Make your changes and add.  
@@ -45,7 +44,7 @@ Add the files ( git add .)
 Commit your changes (git commit -m 'Add some feature')
 Push to the branch (git push)
 Create new Pull Request on GitHub
-```
+
 
 ## Credits
 
