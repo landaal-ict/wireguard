@@ -38,7 +38,7 @@ Run the script again to add or remove clients!
 ## Contributing
 ![](/img/branch.png)  
 ```
-Fork the repository with a date on it, this is the test branch.  
+Fork the repository with the name wireguard-testing, this is the test branch.  
 Make your changes and add.  
 Add the files ( git add .)  
 Commit your changes (git commit -m 'Add some feature')  
