@@ -105,7 +105,7 @@ function initialCheck() {
 
 function installQuestions() {
 	echo "Welcome to the WireGuard installer!"
-	echo "The git repository is available at: https://github.com/angristan/wireguard-install"
+	echo "The git repository is available at: https://github.com/landaal-ict/wireguard"
 	echo ""
 	echo "I need to ask you a few questions before starting the setup."
 	echo "You can keep the default options and just press enter if you are ok with them."
@@ -207,8 +207,8 @@ function installWireGuard() {
 	elif [[ ${OS} == 'arch' ]]; then
 		pacman -S --needed --noconfirm wireguard-tools qrencode
 	elif [[ ${OS} == 'suse' ]]; then
-		zypper in wireguard-tools
-		zypper in qrencode
+		zypper in wireguard-tools -y
+		zypper in qrencode -y
 	fi
 
 	# Make sure the directory exists (this does not seem the be the case on fedora)
