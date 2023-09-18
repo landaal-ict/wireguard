@@ -61,10 +61,10 @@ function checkOS() {
 		OS=oracle
 	elif [[ -e /etc/arch-release ]]; then
 		OS=arch
-	elif [[ -e /etc/os-release ]]; then
+    elif [[ -e /etc/os-release ]]; then
 		OS=suse
 	else
-		echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, AlmaLinux, Oracle, openSUSE or Arch Linux system"
+		echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, AlmaLinux, Oracle or Arch Linux system"
 		exit 1
 	fi
 }
@@ -105,7 +105,7 @@ function initialCheck() {
 
 function installQuestions() {
 	echo "Welcome to the WireGuard installer!"
-	echo "The git repository is available at: https://github.com/angristan/wireguard-install"
+	echo "The git repository is available at: https://github.com/landaal-ict/wireguard"
 	echo ""
 	echo "I need to ask you a few questions before starting the setup."
 	echo "You can keep the default options and just press enter if you are ok with them."
@@ -207,8 +207,8 @@ function installWireGuard() {
 	elif [[ ${OS} == 'arch' ]]; then
 		pacman -S --needed --noconfirm wireguard-tools qrencode
 	elif [[ ${OS} == 'suse' ]]; then
-		zypper in wireguard-tools
-		zypper in qrencode
+		zypper in -y wireguard-tools
+		zypper in -y qrencode
 	fi
 
 	# Make sure the directory exists (this does not seem the be the case on fedora)
@@ -378,6 +378,13 @@ AllowedIPs = ${CLIENT_WG_IPV4}/32,${CLIENT_WG_IPV6}/128" >>"/etc/wireguard/${SER
 
 	wg syncconf "${SERVER_WG_NIC}" <(wg-quick strip "${SERVER_WG_NIC}")
 
+	generateQR "${CLIENT_NAME}"
+}
+
+function generateQR() {
+	CLIENT_NAME="${1}"
+	HOME_DIR=$(getHomeDirForClient "${CLIENT_NAME}")
+	
 	# Generate QR code if qrencode is installed
 	if command -v qrencode &>/dev/null; then
 		echo -e "${GREEN}\nHere is your client config file as a QR Code:\n${NC}"
@@ -396,7 +403,43 @@ function listClients() {
 		exit 1
 	fi
 
-	grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | nl -s ') '
+	echo ""
+	echo "List of existing client(s):"
+	grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | nl -w4 -s ') '
+	
+	echo ""
+	echo "What do you want to do?"
+	echo "   1) Show config file and QR code"
+	echo "   2) Revoke user"
+	echo "   3) Exit"
+	until [[ ${CLIENTS_LIST_MENU_OPTION} =~ ^[1-3]$ ]]; do
+		read -rp "Select an option [1-3]: " CLIENTS_LIST_MENU_OPTION
+	done
+	case "${CLIENTS_LIST_MENU_OPTION}" in
+	1)
+		echo ""
+		echo "Select the existing client you want to show config file and QR code"
+		grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | nl -w4 -s ') '
+		until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+			if [[ ${CLIENT_NUMBER} == '1' ]]; then
+				read -rp "Select one client [1]: " CLIENT_NUMBER
+			else
+				read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			fi
+		done
+
+		# match the selected number to a client name
+		CLIENT_NAME=$(grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
+		
+		generateQR "${CLIENT_NAME}"
+		;;
+	2)
+		revokeClient
+		;;
+	3)
+		exit 0
+		;;
+	esac
 }
 
 function revokeClient() {
@@ -409,7 +452,7 @@ function revokeClient() {
 
 	echo ""
 	echo "Select the existing client you want to revoke"
-	grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | nl -s ') '
+	grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | nl -w4 -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
 			read -rp "Select one client [1]: " CLIENT_NUMBER
@@ -463,6 +506,9 @@ function uninstallWg() {
 			yum remove --noautoremove wireguard-tools qrencode
 		elif [[ ${OS} == 'arch' ]]; then
 			pacman -Rs --noconfirm wireguard-tools qrencode
+		elif [[ ${OS} == 'suse' ]]; then
+			zypper rm -y wireguard-tools
+			zypper rm -y qrencode
 		fi
 
 		rm -rf /etc/wireguard
