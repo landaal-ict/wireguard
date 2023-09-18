@@ -37,8 +37,9 @@ Run the script again to add or remove clients!
 
 ## Contributing
 
-Fork the repository with a date on it, this is the test branch.
-![](/img/branch.png)
+Fork the repository with a date on it, this is the test branch.  
+
+![](/img/branch.png)  
 Make your changes and add.  
 Add the files ( git add .)
 Commit your changes (git commit -m 'Add some feature')
