@@ -392,6 +392,11 @@ function generateQR() {
 	fi
 
 	echo -e "${GREEN}Your client config file is in ${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf${NC}"
+	echo
+	echo
+	echo -e "${GREEN}Copy the config for your desktop or laptop"
+	echo
+	cat ${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf
 }
 
 function listClients() {
