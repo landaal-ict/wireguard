@@ -1,5 +1,7 @@
 # WireGuard installer
 
+![image](https://img.landaalict.nl/i/54cd85c8-ceb4-4ace-a0d0-9ba2cbe86491.png)
+
 **This project is a bash script that aims to setup a [WireGuard](https://www.wireguard.com/) VPN on a Linux server, as easily as possible!**
 
 WireGuard is a point-to-point VPN that can be used in different ways. Here, we mean a VPN as in: the client will forward all its traffic through an encrypted tunnel to the server.
